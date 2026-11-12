@@ -39,13 +39,23 @@ function App() {
      })
     }
 
+    function handleDeleteNote(noteId){
+       axios.delete("http://localhost:3000/api/notes/"+noteId)
+       .then(res=>{
+        console.log(res.data)
+        fatchNotes()
+       })
+
+    }
+
   return (
     <>
 
     <form className='note-create-form' onSubmit={handleSubmit}>
         <input name='title' type='text' placeholder='enter title'/> 
-        <input name='description' type='text' placeholder='enter' />
+        <input name='description' type='text' placeholder='enter description' />
         <button>create note</button>
+        
 
     </form>
       <div className="notes">
@@ -54,6 +64,9 @@ function App() {
             <div className="note" key={note._id || index}>
               <h1>{note.title}</h1>
               <p>{note.description}</p>
+              <button onClick={()=>{handleDeleteNote(note._id)}}>delete</button>
+              <button onClick={()=>{handleUpdateNote(note._id)}}>update</button>
+              
             </div>
           );
         })}
